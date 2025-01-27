@@ -7,6 +7,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: 'Fira Sans',
+    fontWeightRegular: '300',
     h1: {
       fontFamily: 'Space Mono',
     },
