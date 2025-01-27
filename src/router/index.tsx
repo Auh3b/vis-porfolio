@@ -3,6 +3,8 @@ import Layout from '../pages/Layout';
 import Home from '../pages/Home';
 import Projects from '../pages/Projects';
 import Project from '../pages/Projects/[id]';
+import Catalogue from '../pages/Catalogue';
+import CatalogueView from '../pages/Catalogue/CatalogueView';
 
 const routes: RouteObject[] = [
   {
@@ -18,8 +20,16 @@ const routes: RouteObject[] = [
         element: <Projects />,
       },
       {
-        path: 'project/:id',
+        path: 'projects/:id',
         element: <Project />,
+      },
+      {
+        path: 'catalogue',
+        element: <Catalogue />,
+      },
+      {
+        path: 'catalogue/:id',
+        element: <CatalogueView />,
       },
     ],
   },
