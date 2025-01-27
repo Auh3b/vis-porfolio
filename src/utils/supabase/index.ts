@@ -13,6 +13,16 @@ export interface ProjectSchema {
   client: string | 'demo';
   github_url: string | null;
 }
+export interface CatalogueSchema {
+  id: number;
+  created_at: string;
+  name: string;
+  description: string | null;
+  options: string | null;
+  technologies: string | null;
+  upwork_url: string | null;
+  demo_url: string | null;
+}
 
 interface Database {
   public: {
