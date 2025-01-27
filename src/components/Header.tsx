@@ -1,5 +1,5 @@
 import { Box, Button, Grid2 } from '@mui/material';
-import Logo from './common/Logo';
+import Logo from './customIcons/Logo';
 import { Link } from 'react-router';
 
 export default function Header() {
