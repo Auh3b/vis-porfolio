@@ -63,7 +63,7 @@ export default function Projects() {
                   </Grid2>
                   <Button
                     component={Link}
-                    to={String(id)}>
+                    to={`${id}`}>
                     Explore
                   </Button>
                 </Box>
