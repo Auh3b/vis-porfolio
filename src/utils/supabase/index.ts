@@ -14,7 +14,7 @@ export interface ProjectSchema {
   github_url: string | null;
 }
 export interface CatalogueSchema {
-  id: number;
+  id: string;
   created_at: string;
   name: string;
   description: string | null;

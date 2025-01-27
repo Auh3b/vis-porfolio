@@ -9,6 +9,7 @@ export default function TagsUI(props: TagsUIProps) {
   return (
     <Grid2
       container
+      mb={2}
       gap={2}>
       {tags.map((d) => (
         <Chip

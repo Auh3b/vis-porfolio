@@ -3,9 +3,11 @@ import { Button, Grid2, Typography } from '@mui/material';
 import SlidePanel from '../../components/common/SlidePanel';
 import { useEffect, useState } from 'react';
 import supabase, { CatalogueSchema } from '../../utils/supabase';
-import TitleUI, { TitleUILoading } from '../../components/product/TitleUI';
-import TagsUI, { TagsUILoading } from '../../components/product/TagsUI';
+import TitleUI from '../../components/product/TitleUI';
+import TagsUI from '../../components/product/TagsUI';
+import DotArrow from '../../components/customIcons/DotArrow';
 import { Link } from 'react-router';
+import ProductLoading from '../../components/product/ProductLoading';
 
 export default function Catalogue() {
   const [catalogue, setCatalogue] = useState<CatalogueSchema[] | null>(null);
@@ -71,7 +73,7 @@ function CatalogueItems(props: CatalogueProps) {
             ))
           : Array(4)
               .fill('a')
-              .map((_d, i) => <CatalogueProductLoading key={i} />)}
+              .map((_d, i) => <ProductLoading key={i} />)}
       </Grid2>
     </Grid2>
   );
@@ -86,23 +88,12 @@ function CatalogueProduct(props: CatalogueSchema) {
       <TitleUI title={name} />
       <TagsUI tags={technologies?.split(',') || []} />
       <Button
+        endIcon={<DotArrow />}
         sx={{ alignSelf: 'end' }}
         component={Link}
         to={id}>
         Explore
       </Button>
-    </Grid2>
-  );
-}
-
-function CatalogueProductLoading() {
-  return (
-    <Grid2
-      container
-      width={250}
-      direction={'column'}>
-      <TitleUILoading />
-      <TagsUILoading />
     </Grid2>
   );
 }

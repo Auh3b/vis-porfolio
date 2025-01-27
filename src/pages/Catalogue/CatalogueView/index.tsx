@@ -1,8 +1,11 @@
 import { useLocation } from 'react-router';
 import supabase, { CatalogueSchema } from '../../../utils/supabase';
 import { useEffect, useState } from 'react';
-import { Chip, Grid2, Typography } from '@mui/material';
+import { Button, Chip, Grid2, Typography } from '@mui/material';
 import PageContainer from '../../../components/common/PageContainer';
+import SlidePanel from '../../../components/common/SlidePanel';
+import { LeftDotArrow } from '../../../components/customIcons/DotArrow';
+import { Link } from 'react-router';
 
 export default function CatalogueView() {
   const [data, setData] = useState<CatalogueSchema | null>(null);
@@ -28,7 +31,14 @@ export default function CatalogueView() {
         width={'100%'}
         height={'100%'}
         wrap='nowrap'>
-        <Grid2 width={350}></Grid2>
+        <SlidePanel>
+          <Button
+            component={Link}
+            to={'/catalogue'}
+            startIcon={<LeftDotArrow />}>
+            Back to Catalogue
+          </Button>
+        </SlidePanel>
         <Grid2>
           {data && (
             <>

@@ -10,7 +10,7 @@ export default function SlidePanel(props: PropsWithChildren<SlidePanelProps>) {
     <Box
       minWidth={350}
       height={'100%'}
-      sx={props.boxProps}>
+      sx={{ px: 2, ...props.boxProps }}>
       {props.children}
     </Box>
   );
