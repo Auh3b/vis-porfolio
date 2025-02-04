@@ -5,6 +5,9 @@ import Projects from '../pages/Projects';
 import Project from '../pages/Projects/[id]';
 import Catalogue from '../pages/Catalogue';
 import CatalogueView from '../pages/Catalogue/CatalogueView';
+import NotFound from '../pages/NotFound';
+import SimpleMapDemo from '../pages/demos/SimpleMapDemo';
+import ComplexMapDemo from '../pages/demos/ComplexMapDemo';
 
 const routes: RouteObject[] = [
   {
@@ -31,7 +34,19 @@ const routes: RouteObject[] = [
         path: 'catalogue/:id',
         element: <CatalogueView />,
       },
+      {
+        path: 'demo/simple-map',
+        element: <SimpleMapDemo />,
+      },
+      {
+        path: 'demo/complex-map',
+        element: <ComplexMapDemo />,
+      },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ];
 

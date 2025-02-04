@@ -1,12 +1,14 @@
-import { Grid2, Modal, Paper } from '@mui/material';
+import { Grid2, IconButton, Modal, Paper, Typography } from '@mui/material';
 import { IframeHTMLAttributes, useEffect, useRef } from 'react';
+import CloseIcon from '../customIcons/CloseIcon';
 
 interface ProductViewModalProps extends ViewProps {
   open: boolean;
   type: 'images' | 'link';
+  onClose: () => void;
 }
 export default function ProductViewModal(props: ProductViewModalProps) {
-  const { open, type, ...rest } = props;
+  const { open, type, onClose, ...rest } = props;
   return (
     <Modal open={open}>
       <Grid2
@@ -15,7 +17,23 @@ export default function ProductViewModal(props: ProductViewModalProps) {
         alignItems={'center'}
         height={'100%'}>
         <Paper sx={{ width: '95%', height: '95%', p: 2 }}>
-          {type === 'link' ? <LinkView {...rest} /> : <ImageView {...rest} />}
+          <Grid2
+            container
+            wrap='nowrap'
+            direction={'column'}
+            height={'100%'}>
+            <Grid2
+              container
+              justifyContent={'space-between'}>
+              <Typography>{rest.title}</Typography>
+              <IconButton
+                color={'error'}
+                onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            </Grid2>
+            {type === 'link' ? <LinkView {...rest} /> : <ImageView {...rest} />}
+          </Grid2>
         </Paper>
       </Grid2>
     </Modal>
@@ -36,6 +54,7 @@ function LinkView(props: ViewProps) {
   }, [iframeRef]);
   return (
     <iframe
+      // @ts-expect-error
       ref={iframeRef}
       style={{ border: 0 }}
       width={'100%'}

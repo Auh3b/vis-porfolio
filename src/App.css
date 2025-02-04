@@ -1,0 +1,7 @@
+.mapboxgl-popup-content {
+  padding: 0 !important;
+}
+
+.mapboxgl-popup-close-button {
+  position: relative !important;
+}

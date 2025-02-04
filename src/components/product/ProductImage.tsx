@@ -32,6 +32,7 @@ export default function ProductImage(props: ProductImageProps) {
         view
       </Button>
       <ProductViewModal
+        onClose={() => setOpen(false)}
         src={'https://30-day-map-challenge.netlify.app/'}
         title={title || ''}
         open={open}

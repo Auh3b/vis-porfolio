@@ -7,6 +7,7 @@ import DotArrow from '../../components/customIcons/DotArrow';
 import ProductLoading from '../../components/product/ProductLoading';
 import TagsUI from '../../components/product/TagsUI';
 import TitleUI from '../../components/product/TitleUI';
+import SlidePanel from '../../components/common/SlidePanel';
 
 export default function Projects() {
   const [projects, setProjects] = useState<ProjectSchema[] | null>(null);
@@ -30,10 +31,9 @@ export default function Projects() {
     <PageContainer>
       <Grid2
         container
-        wrap='nowrap'
         width={'100%'}
         height={'100%'}>
-        <Box width={350}> </Box>
+        <SlidePanel />
         <Grid2
           container
           direction={'column'}

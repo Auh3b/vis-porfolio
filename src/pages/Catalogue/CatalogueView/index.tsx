@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router';
 import supabase, { CatalogueSchema } from '../../../utils/supabase';
 import { useEffect, useState } from 'react';
-import { Button, Chip, Grid2, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid2, Typography } from '@mui/material';
 import PageContainer from '../../../components/common/PageContainer';
 import SlidePanel from '../../../components/common/SlidePanel';
 import { LeftDotArrow } from '../../../components/customIcons/DotArrow';
@@ -29,8 +29,7 @@ export default function CatalogueView() {
       <Grid2
         container
         width={'100%'}
-        height={'100%'}
-        wrap='nowrap'>
+        height={'100%'}>
         <SlidePanel>
           <Button
             component={Link}
@@ -59,6 +58,16 @@ export default function CatalogueView() {
                     key={d}
                     label={d}
                   />
+                ))}
+              </Grid2>
+              <Typography sx={{ mt: 2 }}>Options:</Typography>
+              <Grid2
+                container
+                direction={'column'}>
+                {data.options?.split(';').map((d) => (
+                  <Box key={d}>
+                    <Typography variant='caption'>- {d}</Typography>
+                  </Box>
                 ))}
               </Grid2>
             </>

@@ -8,9 +8,19 @@ export default function Header() {
       container
       p={2}
       wrap='nowrap'
+      alignItems={'center'}
       justifyContent={'space-between'}
       width={'100%'}>
-      <Logo />
+      <Box
+        component={Link}
+        to={'/'}
+        sx={{
+          '&:hover': {
+            cursor: 'pointer',
+          },
+        }}>
+        <Logo />
+      </Box>
       <Nav />
     </Grid2>
   );

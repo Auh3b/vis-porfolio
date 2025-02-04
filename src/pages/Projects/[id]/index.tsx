@@ -7,7 +7,6 @@ import SlidePanel from '../../../components/common/SlidePanel';
 import { LeftDotArrow } from '../../../components/customIcons/DotArrow';
 import { Link } from 'react-router';
 import ProductLoading from '../../../components/product/ProductLoading';
-import ViewIcon from '../../../components/customIcons/ViewIcon';
 import ProductImage from '../../../components/product/ProductImage';
 
 export default function Project() {
@@ -51,7 +50,7 @@ export default function Project() {
           {!isLoading && data ? <ProjectView {...data} /> : <ProductLoading />}
         </Grid2>
         <Box sx={{ width: 350 }}>
-          <ProductImage />
+          <ProductImage title={data?.name} />
         </Box>
       </Grid2>
     </PageContainer>

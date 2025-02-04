@@ -6,6 +6,7 @@ export default function Layout() {
   return (
     <Grid2
       container
+      wrap='nowrap'
       direction={'column'}
       sx={{
         width: '100vw',
