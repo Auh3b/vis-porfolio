@@ -8,6 +8,7 @@ import CatalogueView from '../pages/Catalogue/CatalogueView';
 import NotFound from '../pages/NotFound';
 import SimpleMapDemo from '../pages/demos/SimpleMapDemo';
 import ComplexMapDemo from '../pages/demos/ComplexMapDemo';
+import SpatialDashboardDemo from '../pages/demos/SpatialDashboardDemo';
 
 const routes: RouteObject[] = [
   {
@@ -41,6 +42,10 @@ const routes: RouteObject[] = [
       {
         path: 'demo/complex-map',
         element: <ComplexMapDemo />,
+      },
+      {
+        path: 'demo/spatial-dashboard',
+        element: <SpatialDashboardDemo />,
       },
     ],
   },
