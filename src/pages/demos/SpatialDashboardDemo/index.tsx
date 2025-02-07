@@ -9,6 +9,7 @@ import useDashboard from './useDashboard';
 import ShopsPerTown from './indicators/ShopsPerTown';
 import ProductTypeRegistration from './indicators/ProductTypeRegistration';
 import ProductTypeSales from './indicators/ProductTypeSales';
+import ProductTax from './indicators/ProductTax';
 
 const data = [
   {
@@ -132,6 +133,7 @@ function LeftChartsPanel() {
       <ShopsPerTown />
       <ProductTypeRegistration />
       <ProductTypeSales />
+      <ProductTax />
     </Grid2>
   );
 }

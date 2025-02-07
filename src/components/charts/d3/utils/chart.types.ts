@@ -16,3 +16,11 @@ export interface DataItem {
   value: number;
   label: string;
 }
+
+export interface AttributeIndicatorItems {
+  x: number;
+  y: number;
+  value?: number | string;
+  label?: string;
+  color?: string;
+}

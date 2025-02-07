@@ -88,7 +88,7 @@ function CustomPopup(props: PopupObject & { onClose: () => void }) {
     properties,
     onClose,
   } = props;
-  console.log(x, y);
+
   return (
     <Popup
       closeOnClick

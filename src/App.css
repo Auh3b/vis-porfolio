@@ -5,3 +5,7 @@
 .mapboxgl-popup-close-button {
   position: relative !important;
 }
+
+text {
+  font: 12px 'Fira Sans', sans-serif;
+}

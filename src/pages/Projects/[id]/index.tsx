@@ -30,7 +30,7 @@ export default function Project() {
         setIsLoading(false);
       })();
   }, [id]);
-  console.log(data);
+
   return (
     <PageContainer>
       <Grid2

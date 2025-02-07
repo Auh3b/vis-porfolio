@@ -47,11 +47,7 @@ interface ViewProps {
 
 function LinkView(props: ViewProps) {
   const iframeRef = useRef<IframeHTMLAttributes<HTMLHtmlElement> | null>();
-  useEffect(() => {
-    if (iframeRef.current) {
-      console.log(iframeRef.current.content);
-    }
-  }, [iframeRef]);
+
   return (
     <iframe
       // @ts-expect-error

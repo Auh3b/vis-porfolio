@@ -63,11 +63,6 @@ export default function BarChart(props: ChartProps) {
           .sort((a, b) => b.value - a.value)
           .map(({ value, label }) => (
             <rect
-              css={css`
-                &:hover {
-                  cursor: pointer;
-                }
-              `}
               key={label}
               onClick={() => handleSelection(label)}
               fill={getColor(label)}
@@ -85,7 +80,6 @@ export default function BarChart(props: ChartProps) {
           .sort((a, b) => b.value - a.value)
           .map(({ value, label }) => (
             <text
-              style={{ font: '12px Fira Sans, sans-serif' }}
               x={xScale(value) + margin.right}
               y={yScale(label) + yScale.bandwidth() / 2}
               dy={`0.35em`}

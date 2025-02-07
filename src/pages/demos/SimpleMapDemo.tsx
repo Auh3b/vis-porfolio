@@ -84,7 +84,7 @@ function PointSource(props: PropsWithChildren) {
       .then((data) => setData(data))
       .catch((e) => console.log(e));
   }, []);
-  // console.log(data);
+
   return (
     <Source
       id='airports'
