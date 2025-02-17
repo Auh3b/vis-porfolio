@@ -1,4 +1,4 @@
-export interface ChartProps {
+export interface ChartProps<T = DataItem, K = string> {
   width?: number;
   height?: number;
   margin?: {
@@ -8,8 +8,8 @@ export interface ChartProps {
     right: number;
   };
   selectedValues?: string[];
-  onSelection?: (label: string) => void;
-  data: DataItem[];
+  onSelection?: (value: K) => void;
+  data: T[];
 }
 
 export interface DataItem {

@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDashboardStore } from './store';
 import { processFilters } from '../../../utils/filterHandlers';
 
 export default function useDashboard() {
   const state = useDashboardStore((state) => state);
+  const setFilter = state.setFilter;
+  const removeFilter = state.removeFilter;
   const getExclusiveFilters = useCallback(
     (id: string) => {
       const filters = Object.entries(state.filters);
@@ -32,6 +34,8 @@ export default function useDashboard() {
   );
 
   return {
+    removeFilter,
+    setFilter,
     getDataset,
     getFilterValues,
   };
