@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography } from '@mui/material';
+import { Box, Divider, Grid2, Typography } from '@mui/material';
 import MapboxMapContainer from '../../../components/map/mapbox/MapboxMapContainer';
 import { Layer, Marker, Source } from 'react-map-gl';
 import { Fragment } from 'react/jsx-runtime';
@@ -63,7 +63,13 @@ export default function SpatialDashboardDemo() {
         direction={'column'}
         width={'100%'}
         height={'100%'}>
-        <Typography>Spatial Dashboard</Typography>
+        <Typography
+          sx={{
+            border: (theme) => `1px solid ${theme.palette.divider}`,
+            p: 1,
+          }}>
+          Spatial Dashboard
+        </Typography>
         <Grid2
           flexGrow={1}
           container>
@@ -127,12 +133,18 @@ function LeftChartsPanel() {
   return (
     <Grid2
       container
-      width={350}
-      gap={2}
-      direction={'column'}>
-      <ShopsPerTown />
-      <ProductTypeRegistration />
-      <ProductTypeSales />
+      gap={1}
+      direction={'column'}
+      sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+      <Grid2 container>
+        <ShopsPerTown />
+        <ProductTypeRegistration />
+        <ProductTypeSales />
+      </Grid2>
+      <Divider
+        variant='horizontal'
+        flexItem
+      />
       <ProductTax />
     </Grid2>
   );
