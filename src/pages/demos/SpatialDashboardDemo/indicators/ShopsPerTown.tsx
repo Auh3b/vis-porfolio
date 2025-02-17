@@ -1,8 +1,9 @@
-import { Fragment, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDashboardStore } from '../store';
 import useDashboard from '../useDashboard';
 import { flatRollup } from 'd3';
 import BarChart from '../../../../components/charts/d3/BarChart';
+import { Box } from '@mui/material';
 
 export default function ShopsPerTown() {
   const id = 'shopPerTown';
@@ -54,7 +55,7 @@ export default function ShopsPerTown() {
     [selectedValues],
   );
   return (
-    <Fragment>
+    <Box sx={{ p: 1 }}>
       {data && (
         <BarChart
           data={data}
@@ -62,6 +63,6 @@ export default function ShopsPerTown() {
           selectedValues={selectedValues}
         />
       )}
-    </Fragment>
+    </Box>
   );
 }
