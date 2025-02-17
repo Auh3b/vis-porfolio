@@ -10,7 +10,7 @@ export default function BarChart(props: ChartProps) {
 
   const {
     width = 300,
-    height = 225,
+    height = 200,
     margin = {
       top: 20,
       bottom: 20,
