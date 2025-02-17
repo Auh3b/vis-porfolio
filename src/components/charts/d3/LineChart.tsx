@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { ChartProps } from './utils/chart.types';
+import { useEffect, useMemo, useRef } from 'react';
+import { ChartProps, DataItem } from './utils/chart.types';
 import { Box } from '@mui/material';
 import {
   axisBottom,
@@ -10,8 +10,9 @@ import {
   scaleTime,
   select,
 } from 'd3';
+import { parse } from 'date-fns';
 
-export default function LineChart(props: ChartProps) {
+export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   const {
     width = 300,
     height = 150,
@@ -19,18 +20,19 @@ export default function LineChart(props: ChartProps) {
       top: 20,
       bottom: 20,
       left: 70,
-      right: 0,
+      right: 20,
     },
     data: _data,
-    selectedValues = [],
     onSelection,
   } = props;
   const gx = useRef();
   const gy = useRef();
   const brushRef = useRef();
 
+  const parseDate = (value: string) => parse(value, 'dd-MM-yyyy', new Date());
+
   const xScale = scaleTime()
-    .domain([new Date(2023, 0, 1), max(_data, (d) => new Date(d.label))])
+    .domain([new Date(2023, 0, 1), new Date(2024, 11, 31)])
     .range([margin.left, width - margin.right]);
 
   const yScale = scaleLinear()
@@ -39,26 +41,31 @@ export default function LineChart(props: ChartProps) {
 
   useEffect(
     () => void select(gx.current).call(axisBottom(xScale).ticks(5)),
-    [gx],
+    [gx, xScale],
   );
 
   useEffect(
     () => void select(gy.current).call(axisLeft(yScale).ticks(5, '.2s')),
-    [gy],
+    [gy, yScale],
   );
 
-  const handleSelection = ({ selection }) => {
+  const handleSelection = ({ selection }: any) => {
+    if (!onSelection) return;
     if (selection) {
-      console.log(selection.map((x) => xScale.invert(x)));
+      return onSelection(selection.map((x: number) => xScale.invert(x)));
     }
   };
 
-  const brush = brushX()
-    .extent([
-      [margin.left, 0.5],
-      [width - margin.right, height - margin.bottom],
-    ])
-    .on('brush', handleSelection);
+  const brush = useMemo(
+    () =>
+      brushX()
+        .extent([
+          [margin.left, 0.5],
+          [width - margin.right, height - margin.bottom],
+        ])
+        .on('brush', handleSelection),
+    [width, height],
+  );
 
   useEffect(() => {
     select(brushRef.current).call(brush);
