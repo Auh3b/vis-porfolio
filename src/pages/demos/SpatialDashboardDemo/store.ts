@@ -1,6 +1,5 @@
 import { FeatureCollection } from 'geojson';
 import { create } from 'zustand';
-import { processFilters } from '../../../utils/filterHandlers';
 
 export interface GeoJsonData {
   type: 'geojson';
@@ -19,7 +18,7 @@ interface DataSets {
 }
 
 export interface FilterItem {
-  type: 'in';
+  type: 'in' | 'between';
   column: string;
   values: any[];
 }
@@ -57,6 +56,15 @@ export const useDashboardStore = create<DashboardState & DashboardActions>(
           [id]: filter,
         },
       })),
-    removeFilter: (id) => {},
+    removeFilter: (id) =>
+      set((state) => {
+        const remaining = state.filters;
+        delete remaining[id];
+        return {
+          filters: {
+            ...remaining,
+          },
+        };
+      }),
   }),
 );
