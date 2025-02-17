@@ -32,8 +32,8 @@ export default function PieChart(props: ChartProps) {
   );
 
   const {
-    width = 300,
-    height = 225,
+    width = 250,
+    height = 200,
     margin = {
       top: 20,
       bottom: 20,
