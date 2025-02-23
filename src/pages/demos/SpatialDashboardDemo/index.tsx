@@ -1,5 +1,5 @@
 import MapboxMapContainer from '../../../components/map/mapbox/MapboxMapContainer';
-import { Layer, Marker, Source } from 'react-map-gl';
+import { Layer, Marker, Source, useMap } from 'react-map-gl';
 import { Fragment } from 'react/jsx-runtime';
 import { useDashboardStore } from './store';
 import { deepOrange } from '@mui/material/colors';
@@ -9,6 +9,7 @@ import ShopsPerTown from './indicators/ShopsPerTown';
 import ProductTypeRegistration from './indicators/ProductTypeRegistration';
 import ProductTypeSales from './indicators/ProductTypeSales';
 import ProductTax from './indicators/ProductTax';
+import { bbox } from '@turf/turf';
 
 const data = [
   {
@@ -55,7 +56,7 @@ export default function SpatialDashboardDemo() {
 
   return (
     <div className='grow p-4 flex flex-col overflow-hidden'>
-      <span>Spatial Dashboard</span>
+      <span>Conniticut Weed Industry | Spatial Dashboard</span>
       <div className='grow gap-4 grid grid-cols-1 md:grid-cols-2'>
         <LeftChartsPanel />
         <div className='w-full h-84 md:h-full order-first md:order-0'>
@@ -76,6 +77,21 @@ function CountLayer() {
   const datasetId = 'counties';
   const { getDataset } = useDashboard();
   const counties = getDataset(id, datasetId);
+  const { current: map } = useMap();
+  useEffect(() => {
+    if (counties && map) {
+      // @ts-ignore
+      const bounds = bbox(counties);
+      const [minX, minY, maxX, maxY] = bounds;
+      map.fitBounds(
+        [
+          [minX, minY],
+          [maxX, maxY],
+        ],
+        { padding: 20 },
+      );
+    }
+  }, [counties]);
   return (
     <Fragment>
       {counties && (
