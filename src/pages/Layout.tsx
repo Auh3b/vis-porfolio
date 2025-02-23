@@ -1,19 +1,18 @@
 import { Outlet } from 'react-router';
 import Header from '../components/Header';
-import { Grid2 } from '@mui/material';
+import { Suspense } from 'react';
+import Loading from '../components/common/loading';
+import { LoadingType } from '../utils/types/component.types';
 
 export default function Layout() {
   return (
-    <Grid2
-      container
-      wrap='nowrap'
-      direction={'column'}
-      sx={{
-        width: '100vw',
-        height: '100vh',
-      }}>
+    <div className='flex flex-col w-screen h-screen overflow-x-hidden overflow-y-scroll md:overflow-y-hidden'>
       <Header />
-      <Outlet />
-    </Grid2>
+      <div className='relative flex grow'>
+        <Suspense fallback={<Loading type={LoadingType.CHART} />}>
+          <Outlet />
+        </Suspense>
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,3 @@
-import { Box, Divider, Grid2, Typography } from '@mui/material';
 import MapboxMapContainer from '../../../components/map/mapbox/MapboxMapContainer';
 import { Layer, Marker, Source } from 'react-map-gl';
 import { Fragment } from 'react/jsx-runtime';
@@ -55,33 +54,20 @@ export default function SpatialDashboardDemo() {
   }, []);
 
   return (
-    <Box
-      flexGrow={1}
-      p={1}>
-      <Grid2
-        container
-        direction={'column'}
-        width={'100%'}
-        height={'100%'}>
-        <Typography
-          sx={{
-            border: (theme) => `1px solid ${theme.palette.divider}`,
-            p: 1,
-          }}>
-          Spatial Dashboard
-        </Typography>
-        <Grid2
-          flexGrow={1}
-          container>
-          <LeftChartsPanel />
+    <div className='grow p-4 flex flex-col overflow-hidden'>
+      <span>Spatial Dashboard</span>
+      <div className='grow gap-4 grid grid-cols-1 md:grid-cols-2'>
+        <LeftChartsPanel />
+        <div className='w-full h-84 md:h-full order-first md:order-0'>
           <MapboxMapContainer
+            className='p-2 border border-gray-200'
             mapStyle={'mapbox://styles/robertchiko/cl9la8m2h002j14qd610lf66k'}>
             <CountLayer />
             <ShopLayer />
           </MapboxMapContainer>
-        </Grid2>
-      </Grid2>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -131,21 +117,13 @@ function ShopLayer() {
 
 function LeftChartsPanel() {
   return (
-    <Grid2
-      container
-      gap={1}
-      direction={'column'}
-      sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-      <Grid2 container>
+    <div className='grid gap-4 grid-rows-2'>
+      <div className='grid gap-4 grid-cols-1 md:grid-cols-3'>
         <ShopsPerTown />
         <ProductTypeRegistration />
         <ProductTypeSales />
-      </Grid2>
-      <Divider
-        variant='horizontal'
-        flexItem
-      />
+      </div>
       <ProductTax />
-    </Grid2>
+    </div>
   );
 }

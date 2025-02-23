@@ -1,14 +1,19 @@
 import { createBrowserRouter, RouteObject } from 'react-router';
 import Layout from '../pages/Layout';
-import Home from '../pages/Home';
-import Projects from '../pages/Projects';
-import Project from '../pages/Projects/[id]';
-import Catalogue from '../pages/Catalogue';
-import CatalogueView from '../pages/Catalogue/CatalogueView';
 import NotFound from '../pages/NotFound';
-import SimpleMapDemo from '../pages/demos/SimpleMapDemo';
-import ComplexMapDemo from '../pages/demos/ComplexMapDemo';
-import SpatialDashboardDemo from '../pages/demos/SpatialDashboardDemo';
+
+import { lazy } from 'react';
+
+const Home = lazy(() => import('../pages/Home'));
+const Projects = lazy(() => import('../pages/Projects'));
+const Project = lazy(() => import('../pages/Projects/[id]'));
+const Catalogue = lazy(() => import('../pages/Catalogue'));
+const CatalogueView = lazy(() => import('../pages/Catalogue/CatalogueView'));
+const SimpleMapDemo = lazy(() => import('../pages/demos/SimpleMapDemo'));
+const ComplexMapDemo = lazy(() => import('../pages/demos/ComplexMapDemo'));
+const SpatialDashboardDemo = lazy(
+  () => import('../pages/demos/SpatialDashboardDemo'),
+);
 
 const routes: RouteObject[] = [
   {

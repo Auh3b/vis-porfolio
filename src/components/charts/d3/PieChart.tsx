@@ -13,12 +13,11 @@ import {
 import { arc, descending, extent, format, pie, pointer, scaleLinear } from 'd3';
 import { grey } from '@mui/material/colors';
 import ChartIndicatorUI from './components/ChartIndicatorUI';
-import { Box } from '@mui/material';
 
 export default function PieChart(props: ChartProps) {
   const [element, setElement] = useState<AttributeIndicatorItems | null>(null);
 
-  const containerRef = useRef<HTMLDivElement>();
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleDataAttrubute = useCallback(
     (e: MouseEvent<SVGElement>) => {
@@ -37,12 +36,10 @@ export default function PieChart(props: ChartProps) {
     margin = {
       top: 20,
       bottom: 20,
-      left: 70,
-      right: 0,
+      left: 10,
+      right: 10,
     },
     data: _data,
-    selectedValues = [],
-    onSelection,
   } = props;
 
   const radius = Math.min(width, height) / 2;
@@ -69,14 +66,14 @@ export default function PieChart(props: ChartProps) {
       startAngle,
       endAngle,
       innerRadius: radius * 0.5,
-      outerRadius: radius - 20,
+      outerRadius: radius - margin.top - margin.left,
     });
 
     const [x, y] = arcGenerator.centroid({
       startAngle,
       endAngle,
       innerRadius: radius,
-      outerRadius: radius - 10,
+      outerRadius: radius - margin.top - margin.left,
     });
     return (
       <g>
@@ -102,16 +99,16 @@ export default function PieChart(props: ChartProps) {
   });
 
   return (
-    <Box
-      position={'relative'}
+    <div
+      className='relative h-64 md:h-full'
       ref={containerRef}>
       <svg
-        viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+        viewBox={`0 0 ${width} ${height}`}
         width={width}
         height={height}>
-        <g>{arcs}</g>
+        <g transform={`translate(${width / 2.1}, ${height / 2})`}>{arcs}</g>
       </svg>
       {element && <ChartIndicatorUI {...element} />}
-    </Box>
+    </div>
   );
 }

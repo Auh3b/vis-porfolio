@@ -55,45 +55,47 @@ export default function BarChart(props: ChartProps) {
   );
 
   return (
-    <svg
-      width={width}
-      height={height}>
-      <g>
-        {data
-          .sort((a, b) => b.value - a.value)
-          .map(({ value, label }) => (
-            <rect
-              key={label}
-              onClick={() => handleSelection(label)}
-              fill={getColor(label)}
-              y={yScale(label)}
-              x={xScale(0)}
-              height={yScale.bandwidth()}
-              width={xScale(value) - xScale(0)}
-            />
-          ))}
-      </g>
-      <g
-        fill='white'
-        textAnchor='end'>
-        {data
-          .sort((a, b) => b.value - a.value)
-          .map(({ value, label }) => (
-            <text
-              x={xScale(value) + margin.right}
-              y={yScale(label) + yScale.bandwidth() / 2}
-              dy={`0.35em`}
-              dx={-4}>
-              {value}
-            </text>
-          ))}
-      </g>
-      <g
-        ref={yAxisRef}
-        transform={`translate(${margin.left}, 0)`}></g>
-      <g
-        ref={xAxisRef}
-        transform={`translate(0, ${height - margin.bottom})`}></g>
-    </svg>
+    <div className='h-64 md:h-full'>
+      <svg
+        width={width}
+        height={height}>
+        <g>
+          {data
+            .sort((a, b) => b.value - a.value)
+            .map(({ value, label }) => (
+              <rect
+                key={label}
+                onClick={() => handleSelection(label)}
+                fill={getColor(label)}
+                y={yScale(label)}
+                x={xScale(0)}
+                height={yScale.bandwidth()}
+                width={xScale(value) - xScale(0)}
+              />
+            ))}
+        </g>
+        <g
+          fill='white'
+          textAnchor='end'>
+          {data
+            .sort((a, b) => b.value - a.value)
+            .map(({ value, label }) => (
+              <text
+                x={xScale(value) + margin.right}
+                y={yScale(label) + yScale.bandwidth() / 2}
+                dy={`0.35em`}
+                dx={-4}>
+                {value}
+              </text>
+            ))}
+        </g>
+        <g
+          ref={yAxisRef}
+          transform={`translate(${margin.left}, 0)`}></g>
+        <g
+          ref={xAxisRef}
+          transform={`translate(0, ${height - margin.bottom})`}></g>
+      </svg>
+    </div>
   );
 }

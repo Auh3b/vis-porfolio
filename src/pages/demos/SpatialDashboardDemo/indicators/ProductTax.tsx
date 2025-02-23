@@ -1,27 +1,18 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useMemo } from 'react';
 import useDashboard from '../useDashboard';
 import LineChart from '../../../../components/charts/d3/LineChart';
 import { ascending, sum } from 'd3';
 import { getUnixTime } from 'date-fns';
-import { Box } from '@mui/material';
 import useElementSize from '../../../../hooks/useElementSize';
+import IndicatorContainer from '../../../../components/charts/common/IndicatorContainer';
 
 const id = 'product-tax-indicator';
+const title = 'Monthly Tax Revenue';
 const datasetId = 'monthly_taxes';
 const column = 'date';
 
 export default function ProductTax() {
-  const [size, setSize] = useState<null | { width: number; height: number }>(
-    null,
-  );
-  const ref = useRef<HTMLDivElement>();
+  const [ref, size] = useElementSize();
 
   const { getDataset, setFilter, removeFilter } = useDashboard();
 
@@ -58,19 +49,10 @@ export default function ProductTax() {
     });
   }, []);
 
-  useLayoutEffect(() => {
-    if (ref.current) {
-      const { clientHeight: height, clientWidth: width } = ref.current;
-      setSize({ height, width });
-    }
-  }, [data]);
-
-  console.log(size);
-
   return (
-    <Box
-      ref={ref}
-      sx={{ flexGrow: 1 }}>
+    <IndicatorContainer
+      title={title}
+      chartRef={ref}>
       {data && (
         <LineChart
           {...size}
@@ -78,6 +60,6 @@ export default function ProductTax() {
           onSelection={onSelection}
         />
       )}
-    </Box>
+    </IndicatorContainer>
   );
 }

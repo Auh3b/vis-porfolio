@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { ChartProps, DataItem } from './utils/chart.types';
-import { Box } from '@mui/material';
 import {
   axisBottom,
   axisLeft,
   brushX,
+  descending,
+  line,
   max,
   scaleLinear,
   scaleTime,
   select,
 } from 'd3';
-import { parse } from 'date-fns';
 
 export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   const {
@@ -19,7 +19,7 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
     margin = {
       top: 20,
       bottom: 20,
-      left: 70,
+      left: 44,
       right: 20,
     },
     data: _data,
@@ -29,7 +29,13 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   const gy = useRef();
   const brushRef = useRef();
 
-  const parseDate = (value: string) => parse(value, 'dd-MM-yyyy', new Date());
+  const data = useMemo(
+    () =>
+      _data
+        .map(({ value, label }) => ({ value, label: new Date(label) }))
+        .sort((a, b) => descending(a.label, b.label)),
+    [_data],
+  );
 
   const xScale = scaleTime()
     .domain([new Date(2023, 0, 1), new Date(2024, 11, 31)])
@@ -38,6 +44,11 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   const yScale = scaleLinear()
     .domain([0, max(_data, (d) => d.value)])
     .range([height - margin.bottom, margin.top]);
+
+  const lineGenerator = line()
+    .x((d) => xScale(d.label))
+    .y((d) => yScale(d.value));
+  // .curve(curveStep);
 
   useEffect(
     () => void select(gx.current).call(axisBottom(xScale).ticks(5)),
@@ -72,7 +83,7 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   }, [brushRef]);
 
   return (
-    <Box>
+    <div className='relative w-full h-44 md:h-full'>
       <svg
         width={width}
         height={height}>
@@ -81,12 +92,21 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
           {_data.map(({ value, label }) => (
             <circle
               key={label}
-              r={2}
+              r={3}
               cx={xScale(new Date(label))}
               cy={yScale(value)}
             />
           ))}
         </g>
+        {data && (
+          <g>
+            <path
+              stroke='black'
+              fill='none'
+              d={lineGenerator(data)}
+            />
+          </g>
+        )}
         <g
           ref={gy}
           transform={`translate(${margin.left}, 0)`}></g>
@@ -94,6 +114,6 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
           ref={gx}
           transform={`translate(0, ${height - margin.bottom})`}></g>
       </svg>
-    </Box>
+    </div>
   );
 }

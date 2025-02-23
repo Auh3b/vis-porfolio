@@ -3,12 +3,18 @@ import { useDashboardStore } from '../store';
 import useDashboard from '../useDashboard';
 import { flatRollup } from 'd3';
 import BarChart from '../../../../components/charts/d3/BarChart';
-import { Box } from '@mui/material';
+import useElementSize from '../../../../hooks/useElementSize';
+import IndicatorContainer from '../../../../components/charts/common/IndicatorContainer';
 
+const id = 'shopPerTown';
+const column = 'county';
+const title = 'Shops Per Town';
+const datasetId = 'shops';
 export default function ShopsPerTown() {
-  const id = 'shopPerTown';
-  const column = 'county';
-  const datasetId = 'shops';
+  const [ref, size] = useElementSize();
+
+  const state = useDashboardStore((state) => state);
+  console.log(state);
 
   const { getFilterValues, getDataset } = useDashboard();
 
@@ -55,14 +61,17 @@ export default function ShopsPerTown() {
     [selectedValues],
   );
   return (
-    <Box sx={{ p: 1 }}>
+    <IndicatorContainer
+      chartRef={ref}
+      title={title}>
       {data && (
         <BarChart
+          {...size}
           data={data}
           onSelection={onSelection}
           selectedValues={selectedValues}
         />
       )}
-    </Box>
+    </IndicatorContainer>
   );
 }
