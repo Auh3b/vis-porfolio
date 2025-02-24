@@ -1,5 +1,5 @@
 import PageContainer from '../../components/common/PageContainer';
-import { Button, Grid2, Typography } from '@mui/material';
+import { Button, Grid2 } from '@mui/material';
 import SlidePanel from '../../components/common/SlidePanel';
 import { useEffect, useState } from 'react';
 import supabase, { CatalogueSchema } from '../../utils/supabase';
@@ -29,17 +29,13 @@ export default function Catalogue() {
 
   return (
     <PageContainer>
-      <Grid2
-        container
-        height={'100%'}
-        width={'100%'}
-        wrap='nowrap'>
+      <div className='flex w-full h-full flex-col md:flex-row'>
         <SlidePanel></SlidePanel>
         <CatalogueItems
           isLoading={isLoading}
           data={catalogue}
         />
-      </Grid2>
+      </div>
     </PageContainer>
   );
 }
@@ -52,18 +48,9 @@ interface CatalogueProps {
 function CatalogueItems(props: CatalogueProps) {
   const { isLoading, data } = props;
   return (
-    <Grid2
-      container
-      direction={'column'}>
-      <Typography
-        mb={4}
-        textTransform={'uppercase'}
-        variant='h5'>
-        Catalogue
-      </Typography>
-      <Grid2
-        container
-        gap={6}>
+    <div className='flex flex-col p-4'>
+      <p className='text-2xl uppercase mb-4'>Catalogue</p>
+      <div className='grid gap-8  md:grid-cols-2 lg:grid-cols-4'>
         {!isLoading && data
           ? data.map((d) => (
               <CatalogueProduct
@@ -74,8 +61,8 @@ function CatalogueItems(props: CatalogueProps) {
           : Array(4)
               .fill('a')
               .map((_d, i) => <ProductLoading key={i} />)}
-      </Grid2>
-    </Grid2>
+      </div>
+    </div>
   );
 }
 

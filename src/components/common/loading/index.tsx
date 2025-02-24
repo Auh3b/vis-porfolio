@@ -5,6 +5,7 @@ import {
 } from '../../../utils/types/component.types';
 import { useSpring, animated, useSprings } from '@react-spring/web';
 import { curveStep, line, randomInt, scaleLinear } from 'd3';
+import { indigo } from '@mui/material/colors';
 
 const loadingComponent: { [k: string]: ReactNode } = {
   [LoadingType.PAGE]: <PageLoading />,
@@ -144,7 +145,7 @@ function ChartLoading() {
       className='border-b-2'>
       <animated.path
         fill={'none'}
-        stroke={'black'}
+        stroke={indigo[900]}
         strokeWidth={2}
         {...path}
       />

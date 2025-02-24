@@ -1,5 +1,3 @@
-import { Chip, Grid2, Skeleton } from '@mui/material';
-
 interface TagsUIProps {
   tags: string[];
 }
@@ -7,41 +5,26 @@ interface TagsUIProps {
 export default function TagsUI(props: TagsUIProps) {
   const { tags } = props;
   return (
-    <Grid2
-      container
-      mb={2}
-      gap={2}>
+    <div className='flex mb-2 gap-2'>
       {tags.map((d) => (
-        <Chip
-          sx={{
-            borderRadius: 0,
-          }}
+        <span
           key={d}
-          label={d}
-        />
+          className='p-2 bg-gray-400'>
+          {d}
+        </span>
       ))}
-    </Grid2>
+    </div>
   );
 }
 
 export function TagsUILoading() {
   return (
-    <Grid2
-      container
-      gap={2}>
+    <div className='flex gap-2 w-full h-8'>
       {Array(3)
         .fill('a')
         .map((_d) => (
-          <Chip
-            sx={{ width: 50, borderRadius: 0 }}
-            label={
-              <Skeleton
-                variant={'rectangular'}
-                animation={'wave'}
-              />
-            }
-          />
+          <div className='w-full animate-pulse bg-gray-400'></div>
         ))}
-    </Grid2>
+    </div>
   );
 }

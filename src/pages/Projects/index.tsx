@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import supabase, { ProjectSchema } from '../../utils/supabase';
-import { Box, Button, Chip, Grid2, Typography } from '@mui/material';
+import { Button, Grid2 } from '@mui/material';
 import PageContainer from '../../components/common/PageContainer';
 import { Link } from 'react-router';
 import DotArrow from '../../components/customIcons/DotArrow';
@@ -29,24 +29,11 @@ export default function Projects() {
 
   return (
     <PageContainer>
-      <Grid2
-        container
-        width={'100%'}
-        height={'100%'}>
+      <div className='flex w-full h-full flex-col md:flex-row'>
         <SlidePanel />
-        <Grid2
-          container
-          direction={'column'}
-          wrap='nowrap'>
-          <Typography
-            variant='h5'
-            mb={4}
-            textTransform={'uppercase'}>
-            Projects
-          </Typography>
-          <Grid2
-            container
-            gap={8}>
+        <div className='p-4 flex flex-col'>
+          <p className='uppercase text-2xl mb-4'>Projects</p>
+          <div className='grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             {!isLoading && projects
               ? projects.map((d) => (
                   <ProjectProduct
@@ -57,9 +44,9 @@ export default function Projects() {
               : Array(4)
                   .fill('a')
                   .map((_d, i) => <ProductLoading key={i} />)}
-          </Grid2>
-        </Grid2>
-      </Grid2>
+          </div>
+        </div>
+      </div>
     </PageContainer>
   );
 }

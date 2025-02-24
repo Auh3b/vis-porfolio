@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router';
 import supabase, { ProjectSchema } from '../../../utils/supabase';
 import { useEffect, useState } from 'react';
-import { Box, Button, Chip, Grid2, Typography } from '@mui/material';
 import PageContainer from '../../../components/common/PageContainer';
 import SlidePanel from '../../../components/common/SlidePanel';
 import { LeftDotArrow } from '../../../components/customIcons/DotArrow';
@@ -33,26 +32,22 @@ export default function Project() {
 
   return (
     <PageContainer>
-      <Grid2
-        container
-        width={'100%'}
-        height={'100%'}
-        wrap='nowrap'>
+      <div className='flex flex-col md:flex-row w-full h-full'>
         <SlidePanel>
-          <Button
-            component={Link}
+          <Link
             to={'/projects'}
-            startIcon={<LeftDotArrow />}>
+            className='flex gap-2'>
+            <LeftDotArrow />
             Back to projects
-          </Button>
+          </Link>
         </SlidePanel>
-        <Grid2 sx={{ pr: 4 }}>
+        <div className='pr-4'>
           {!isLoading && data ? <ProjectView {...data} /> : <ProductLoading />}
-        </Grid2>
-        <Box sx={{ width: 350 }}>
+        </div>
+        <div className='w-full'>
           <ProductImage title={data?.name} />
-        </Box>
-      </Grid2>
+        </div>
+      </div>
     </PageContainer>
   );
 }
@@ -60,30 +55,18 @@ export default function Project() {
 function ProjectView(props: ProjectSchema) {
   const { name, tags } = props;
   return (
-    <Box>
-      <Typography
-        variant='h4'
-        mb={4}>
-        {name}
-      </Typography>
-      <Typography mb={2}>
+    <div className='p-4'>
+      <p className='text-3xl mb-4'>{name}</p>
+      <p className='mb-2'>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea explicabo
         laudantium perferendis enim quo maxime rem at soluta error est, corrupti
         optio ipsam similique consequatur. Quibusdam sed odio soluta ab.
-      </Typography>
-      <Grid2
-        container
-        gap={2}>
+      </p>
+      <div className='flex gap-4'>
         {tags?.split(',').map((d) => (
-          <Chip
-            sx={{
-              borderRadius: 0,
-            }}
-            key={d}
-            label={d}
-          />
+          <span className='p-2 bg-gray-700'>{d}</span>
         ))}
-      </Grid2>
-    </Box>
+      </div>
+    </div>
   );
 }

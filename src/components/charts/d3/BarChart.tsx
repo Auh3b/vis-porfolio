@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { grey } from '@mui/material/colors';
 import { axisBottom, axisLeft, max, scaleBand, scaleLinear, select } from 'd3';
 import { useCallback, useEffect, useRef } from 'react';
@@ -58,7 +57,8 @@ export default function BarChart(props: ChartProps) {
     <div className='h-64 md:h-full'>
       <svg
         width={width}
-        height={height}>
+        height={height}
+        className='fill-indigo-700'>
         <g>
           {data
             .sort((a, b) => b.value - a.value)
@@ -69,6 +69,7 @@ export default function BarChart(props: ChartProps) {
                 fill={getColor(label)}
                 y={yScale(label)}
                 x={xScale(0)}
+                className='fill-indigo-700'
                 height={yScale.bandwidth()}
                 width={xScale(value) - xScale(0)}
               />

@@ -9,6 +9,7 @@ export default function DotArrow(props: SVGSxProps) {
   return (
     <SvgIcon
       viewBox='0 0 40 60'
+      className='fill-indigo-600'
       sx={sxProps}>
       <rect
         width={10}

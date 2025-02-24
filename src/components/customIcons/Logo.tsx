@@ -3,6 +3,7 @@ export default function Logo() {
     <svg
       width='140'
       height='60'
+      className='fill-indigo-600'
       xmlns='http://www.w3.org/2000/svg'>
       <rect
         width={20}

@@ -11,7 +11,7 @@ import {
   DataItem,
 } from './utils/chart.types';
 import { arc, descending, extent, format, pie, pointer, scaleLinear } from 'd3';
-import { grey } from '@mui/material/colors';
+import { grey, indigo } from '@mui/material/colors';
 import ChartIndicatorUI from './components/ChartIndicatorUI';
 
 export default function PieChart(props: ChartProps) {
@@ -52,7 +52,7 @@ export default function PieChart(props: ChartProps) {
 
   const colorScale = scaleLinear()
     .domain(extent(_data, (d) => d.value))
-    .range([grey[300], 'black']);
+    .range([indigo[100], indigo[900]]);
 
   const arcs = pieGenerator(
     _data.sort((a, b) => descending(a.value, b.value)),

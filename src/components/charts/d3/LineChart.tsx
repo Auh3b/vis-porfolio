@@ -91,6 +91,7 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
         <g>
           {_data.map(({ value, label }) => (
             <circle
+              className='fill-indigo-700'
               key={label}
               r={3}
               cx={xScale(new Date(label))}
@@ -101,7 +102,7 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
         {data && (
           <g>
             <path
-              stroke='black'
+              className='stroke-indigo-700'
               fill='none'
               d={lineGenerator(data)}
             />

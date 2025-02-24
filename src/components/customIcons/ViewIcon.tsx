@@ -2,7 +2,9 @@ import { SvgIcon } from '@mui/material';
 
 export default function ViewIcon() {
   return (
-    <SvgIcon viewBox='0 0 60 40'>
+    <SvgIcon
+      viewBox='0 0 60 40'
+      className='fill-indigo-600'>
       <rect
         width={10}
         height={10}

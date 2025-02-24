@@ -1,4 +1,3 @@
-import { Button, Grid2 } from '@mui/material';
 import ViewIcon from '../customIcons/ViewIcon';
 import ProductViewModal from './ProductViewModal';
 import { useState } from 'react';
@@ -13,24 +12,20 @@ export default function ProductImage(props: ProductImageProps) {
   const { src, link, title } = props;
   const [open, setOpen] = useState(false);
   return (
-    <Grid2
-      container
-      direction={'column'}
-      width={'100%'}
-      pr={4}>
+    <div className='flex flex-col w-full px-4'>
       <img
         src={src}
         alt={title}
         width={'100%'}
-        height={'250px'}
+        className='h-80 border border-gray-700'
         style={{ marginBottom: '16px' }}
       />
-      <Button
+      <button
         onClick={() => setOpen(true)}
-        endIcon={<ViewIcon />}
-        sx={{ ml: 'auto' }}>
+        className='flex gap-2 items-center ml-auto hover:cursor-pointer'>
         view
-      </Button>
+        {<ViewIcon />}
+      </button>
       <ProductViewModal
         onClose={() => setOpen(false)}
         src={'https://30-day-map-challenge.netlify.app/'}
@@ -38,6 +33,6 @@ export default function ProductImage(props: ProductImageProps) {
         open={open}
         type={'link'}
       />
-    </Grid2>
+    </div>
   );
 }

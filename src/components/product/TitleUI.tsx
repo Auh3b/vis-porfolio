@@ -1,26 +1,12 @@
-import { Skeleton, Typography } from '@mui/material';
-
 interface TitleUIProps {
   title: string;
 }
 
 export default function TitleUI(props: TitleUIProps) {
   const { title } = props;
-  return (
-    <Typography
-      variant='h6'
-      mb={4}>
-      {title}
-    </Typography>
-  );
+  return <p className='text-xl'>{title}</p>;
 }
 
 export function TitleUILoading() {
-  return (
-    <Typography
-      variant='h5'
-      mb={4}>
-      {<Skeleton animation={'wave'} />}
-    </Typography>
-  );
+  return <div className='w-full animate-pulse h-4 bg-gray-400'></div>;
 }

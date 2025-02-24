@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+body {
+  font-family: Fira Sans, sans-serif;
+}
+
 .mapboxgl-popup-content {
   padding: 0 !important;
 }
@@ -10,4 +14,8 @@
 
 text {
   font: 12px 'Fira Sans', sans-serif;
+}
+
+body {
+  @apply bg-gray-950 text-white;
 }
