@@ -1,5 +1,3 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { ChartProps, DataItem } from './utils/chart.types';
 import {
   axisBottom,
   axisLeft,
@@ -11,6 +9,8 @@ import {
   scaleTime,
   select,
 } from 'd3';
+import { useEffect, useMemo, useRef } from 'react';
+import { ChartProps, DataItem } from './utils/chart.types';
 
 export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
   const {
@@ -36,7 +36,7 @@ export default function LineChart(props: ChartProps<DataItem, Date[] | null>) {
         .sort((a, b) => descending(a.label, b.label)),
     [_data],
   );
-
+  console.log(data);
   const xScale = scaleTime()
     .domain([new Date(2023, 0, 1), new Date(2024, 11, 31)])
     .range([margin.left, width - margin.right]);

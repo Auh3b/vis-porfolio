@@ -1,6 +1,9 @@
+import { load } from '@loaders.gl/core';
 import { useCallback } from 'react';
-import { useDashboardStore } from './store';
+import { DATA_LOADER } from '../../../utils/data-loaders';
 import { processFilters } from '../../../utils/filterHandlers';
+import { DataLoadConfig } from '../../../utils/types/data.types';
+import { useDashboardStore } from './store';
 
 export default function useDashboard() {
   const state = useDashboardStore((state) => state);
@@ -33,10 +36,20 @@ export default function useDashboard() {
     [state],
   );
 
+  const getLoadFunc = (
+    dataset: DataLoadConfig,
+    loaderOptions?: { [key: string]: any },
+  ) => {
+    const { format, url } = dataset;
+    const loader = DATA_LOADER[format];
+    return load(url, loader, loaderOptions || {});
+  };
+
   return {
     removeFilter,
     setFilter,
     getDataset,
     getFilterValues,
+    getLoadFunc,
   };
 }

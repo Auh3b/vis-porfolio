@@ -1,14 +1,15 @@
-import { useCallback, useMemo } from 'react';
-import useDashboard from '../useDashboard';
-import LineChart from '../../../../components/charts/d3/LineChart';
 import { ascending, sum } from 'd3';
 import { getUnixTime } from 'date-fns';
-import useElementSize from '../../../../hooks/useElementSize';
+import { useCallback, useMemo } from 'react';
 import IndicatorContainer from '../../../../components/charts/common/IndicatorContainer';
+import LineChart from '../../../../components/charts/d3/LineChart';
+import useElementSize from '../../../../hooks/useElementSize';
+import useDashboard from '../useDashboard';
+import { DATASET_NAME } from '../utils';
 
 const id = 'product-tax-indicator';
 const title = 'Monthly Tax Revenue';
-const datasetId = 'monthly_taxes';
+const datasetId = DATASET_NAME.CONSOLIDATED_DATA;
 const column = 'date';
 
 export default function ProductTax() {
@@ -19,8 +20,8 @@ export default function ProductTax() {
   const _data = getDataset(id, datasetId);
 
   const data = useMemo(() => {
-    if (!_data) return null;
-    return _data
+    if (!_data?.data) return null;
+    return _data?.data
       .sort((a, b) => ascending(a, b))
       .map((d) => {
         const value = sum([
@@ -28,7 +29,7 @@ export default function ProductTax() {
           d['edible_products_tax'],
           d['other_cannabis__tax'],
         ]);
-        const label = d['date'];
+        const label = d['date'].split('/').reverse();
         return {
           value,
           label,
@@ -48,7 +49,7 @@ export default function ProductTax() {
       column,
     });
   }, []);
-
+  console.log(data);
   return (
     <IndicatorContainer
       title={title}

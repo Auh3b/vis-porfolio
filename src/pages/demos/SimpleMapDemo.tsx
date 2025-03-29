@@ -1,13 +1,4 @@
-import { Box, Grid2, Paper, Typography } from '@mui/material';
-import MapboxMapContainer from '../../components/map/mapbox/MapboxMapContainer';
-import {
-  AttributionControl,
-  Layer,
-  LayerProps,
-  Source,
-  MapMouseEvent,
-  MapRef,
-} from 'react-map-gl';
+import { purple } from '@mui/material/colors';
 import {
   PropsWithChildren,
   useCallback,
@@ -15,7 +6,18 @@ import {
   useRef,
   useState,
 } from 'react';
-import { blue } from '@mui/material/colors';
+import { MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
+import {
+  AttributionControl,
+  Layer,
+  LayerProps,
+  MapMouseEvent,
+  MapRef,
+  Source,
+} from 'react-map-gl';
+import CustomNavigationPanel from '../../components/map/CustomNavigationPanel';
+import MapboxMapContainer from '../../components/map/mapbox/MapboxMapContainer';
+import MapContentTitle from '../../components/map/MapContentTitle';
 
 const LAYERS = {
   CLUSTER_LAYER: 'cluster-layer',
@@ -56,14 +58,8 @@ export default function SimpleMapDemo() {
     [mapRef.current],
   );
   return (
-    <Box sx={{ flexGrow: 1, p: 2 }}>
-      <Grid2
-        container
-        wrap='nowrap'
-        direction={'column'}
-        width={'100%'}
-        height={'100%'}>
-        <Typography mb={2}>WFP Landing Sites | Simple Map Demo</Typography>
+    <div className='grow'>
+      <div className='flex flex-col w-full h-full'>
         <MapboxMapContainer
           // @ts-ignore
           mapRef={mapRef}
@@ -74,7 +70,13 @@ export default function SimpleMapDemo() {
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
           onMouseMove={moveHandler}
-          mapStyle={'mapbox://styles/robertchiko/cl9la8m2h002j14qd610lf66k'}>
+          mapStyle={'mapbox://styles/robertchiko/cm7qs6um9007d01sdetwq575s'}>
+          <MapContentTitle
+            title='UNHAS Helicopter Landing Sites'
+            wrapperClasses='p-2 paper absolute top-4 left-4 shadow w-1/2 md:w-1/3'>
+            <MapInfo />
+          </MapContentTitle>
+          <CustomNavigationPanel mapRef={mapRef.current} />
           <AttributionControl customAttribution={'WFP'} />
           {coord && (
             <HoverInfo
@@ -86,8 +88,40 @@ export default function SimpleMapDemo() {
             <CircleFillLayer />
           </PointSource>
         </MapboxMapContainer>
-      </Grid2>
-    </Box>
+      </div>
+    </div>
+  );
+}
+
+function MapInfo() {
+  const [open, setOpen] = useState(true);
+  const handleClick = () => setOpen((prev) => !prev);
+  return (
+    <div className='flex items-start'>
+      <button
+        className='px-2 pt-0 button'
+        onClick={handleClick}>
+        {open ? (
+          <MdKeyboardArrowRight fontSize={20} />
+        ) : (
+          <MdKeyboardArrowDown fontSize={20} />
+        )}
+      </button>
+      <p
+        className={`text-xs transition-all duration-500 ${
+          open ? 'h-4 overflow-hidden' : 'h-auto'
+        }`}>
+        The United Nations Humanitarian Air Service (UNHAS), managed by the
+        World Food Programme (WFP), offers safe, reliable, cost-efficient and
+        effective passenger and light cargo transport for the wider humanitarian
+        community to and from areas of crisis. It is the only humanitarian air
+        service that gives equal access to all humanitarian entities. UNHAS
+        responds to the need for access to the world's most remote and
+        challenging locations, often under precarious security conditions, where
+        no safe surface transport or other viable commercial aviation options
+        are available.
+      </p>
+    </div>
   );
 }
 
@@ -97,11 +131,14 @@ function HoverInfo(props: { coords: number[]; name: string }) {
     coords: [x, y],
   } = props;
   return (
-    <Box
-      position={'absolute'}
-      sx={{ transform: `translate(${x + 10}px, ${y + 10}px)` }}>
-      <Paper sx={{ p: 1 }}>{name} ✈️</Paper>
-    </Box>
+    <div
+      className='paper p-2'
+      style={{
+        position: 'absolute',
+        transform: `translate(${x + 10}px, ${y + 10}px)`,
+      }}>
+      {name} 🚁
+    </div>
   );
 }
 
@@ -112,7 +149,7 @@ const circleFill: LayerProps = {
   filter: ['!has', 'point_count'],
   paint: {
     'circle-radius': 10,
-    'circle-color': blue[600],
+    'circle-color': purple[600],
     'circle-opacity': 0.5,
     'circle-stroke-width': 1,
   },
@@ -124,8 +161,8 @@ const clusterFill: LayerProps = {
   filter: ['has', 'point_count'],
   source: 'airports',
   paint: {
-    'circle-color': blue[600],
-    'circle-stroke-color': blue[600],
+    'circle-color': purple[600],
+    'circle-stroke-color': purple[600],
     'circle-opacity': 0.5,
     'circle-stroke-width': 2,
     'circle-radius': [

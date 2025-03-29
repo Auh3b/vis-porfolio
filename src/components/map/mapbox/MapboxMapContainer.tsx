@@ -1,6 +1,6 @@
-import { Map, MapProps, NavigationControl, MapRef } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { PropsWithChildren, MutableRefObject } from 'react';
+import { MutableRefObject, PropsWithChildren } from 'react';
+import { Map, MapProps, MapRef } from 'react-map-gl';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -20,7 +20,7 @@ export default function MapboxMapContainer(
         ref={mapRef}
         mapboxAccessToken={MAPBOX_TOKEN}
         {...restProps}>
-        <NavigationControl />
+        {/* <NavigationControl /> */}
         {children}
       </Map>
     </div>

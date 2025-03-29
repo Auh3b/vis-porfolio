@@ -19,3 +19,22 @@ text {
 body {
   @apply bg-gray-950 text-white;
 }
+
+.button {
+  @apply hover:cursor-pointer;
+}
+
+.paper {
+  @apply bg-gray-800 text-white shadow-2xl;
+}
+
+.map-content-title {
+  @apply text-lg font-semibold;
+}
+
+.map-content-description-wrapper {
+}
+
+.divider {
+  @apply border-gray-400;
+}

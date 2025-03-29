@@ -1,13 +1,13 @@
-import { Box, Grid2, Typography } from '@mui/material';
-import MapboxMapContainer from '../../components/map/mapbox/MapboxMapContainer';
-import { Layer, MapMouseEvent, Source, useMap } from 'react-map-gl';
-import { useEffect, useMemo, useState } from 'react';
 import { deepOrange, deepPurple, grey } from '@mui/material/colors';
-import { FeatureCollection } from 'geojson';
 import { bbox, booleanIntersects, buffer, featureCollection } from '@turf/turf';
-import { LuTrainTrack } from 'react-icons/lu';
-import { RiShipFill } from 'react-icons/ri';
-import { RiShapeLine } from 'react-icons/ri';
+import { FeatureCollection } from 'geojson';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { LuSquare, LuSquareCheck, LuTrainTrack } from 'react-icons/lu';
+import { RiShapeLine, RiShipFill } from 'react-icons/ri';
+import { Layer, MapMouseEvent, MapRef, Source, useMap } from 'react-map-gl';
+import CustomNavigationPanel from '../../../components/map/CustomNavigationPanel';
+import MapboxMapContainer from '../../../components/map/mapbox/MapboxMapContainer';
+import MapContentTitle from '../../../components/map/MapContentTitle';
 
 type PopupObject = { layerId: string; [key: string]: any } | null;
 
@@ -15,6 +15,7 @@ const LAYERS = {
   STATE_LAYER: 'state-layer',
   RAIL_LAYER: 'rail-layer',
   PORT_LAYER: 'port-layer',
+  PORT_CLUSTERS_LAYER: 'port-cluster-layer',
 };
 
 const layerProps = {
@@ -35,29 +36,42 @@ const layerIcons = {
   [LAYERS.STATE_LAYER]: <RiShapeLine size={24} />,
 };
 
-const interactiveLayerIds = Object.values(LAYERS);
+const interactiveLayerIds = [...Object.values(LAYERS)];
 
 export default function ComplexMapDemo() {
+  const mapRef = useRef<MapRef | undefined>();
   const [visibleLayers, setVisibleLayers] = useState<string[]>([
     'railways',
     'ports',
     'states',
   ]);
+
   const [cursor, setCursor] = useState('');
-  const [popup, setPopup] = useState<null | PopupObject>(null);
   const [preview, setPreview] = useState<null | PopupObject>(null);
-  const clickHandler = (e: MapMouseEvent) => {
-    if (!e.features?.length) return;
-    const feature = e.features[0];
-    const layerId = feature.layer?.id || '';
-    setPopup({ layerId, ...feature.properties });
-  };
+
+  const clickHandler = useCallback(
+    (e: MapMouseEvent) => {
+      if (!e.features?.length) return;
+      const feature = e.features[0];
+      const layerId = feature.layer?.id || '';
+      if (layerId !== LAYERS.PORT_CLUSTERS_LAYER) return;
+      if (!mapRef.current) return;
+      mapRef.current.flyTo({
+        center: [e.lngLat.lng, e.lngLat.lat],
+        zoom: mapRef.current.getZoom() + 1,
+      });
+    },
+    [mapRef.current],
+  );
+
   const moveHandler = (e: MapMouseEvent) => {
     if (!e.features?.length) return;
     const feature = e.features[0];
     const layerId = feature.layer?.id || '';
+    if (layerId === LAYERS.PORT_CLUSTERS_LAYER) return;
     setPreview({ layerId, ...feature.properties });
   };
+
   const leaveHandler = () => {
     setPreview(null);
     setCursor('');
@@ -70,30 +84,24 @@ export default function ComplexMapDemo() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, p: 2 }}>
-      <Grid2
-        container
-        width={'100%'}
-        height={'100%'}
-        direction={'column'}
-        wrap='nowrap'>
-        <Box>
-          <Typography>
-            US Land and Water Transport | Complex Map Demo
-          </Typography>
-        </Box>
+    <div className='grow '>
+      <div className='flex flex-col w-full h-full'>
         <MapboxMapContainer
           cursor={cursor}
+          // @ts-ignore
+          mapRef={mapRef}
           onMouseEnter={() => setCursor('pointer')}
           onMouseLeave={leaveHandler}
           onMouseMove={moveHandler}
           onClick={clickHandler}
           interactiveLayerIds={interactiveLayerIds}
-          mapStyle={'mapbox://styles/robertchiko/cl9la8m2h002j14qd610lf66k'}>
-          <CustomPopup
-            properties={popup}
-            preview={preview}
-          />
+          mapStyle={'mapbox://styles/robertchiko/cm7qs6um9007d01sdetwq575s'}>
+          <MapContentTitle
+            title=' US Land and Water Transport'
+            wrapperClasses='paper p-3 absolute top-4 left-4'>
+            <CustomPopup preview={preview} />
+          </MapContentTitle>
+          <CustomNavigationPanel mapRef={mapRef.current} />
           <PointLayer visibleLayers={visibleLayers} />
           <PolygonLayer visibleLayers={visibleLayers} />
           <LineLayer visibleLayers={visibleLayers} />
@@ -102,24 +110,23 @@ export default function ComplexMapDemo() {
             onVisibilityChange={handleVisibility}
           />
         </MapboxMapContainer>
-      </Grid2>
-    </Box>
+      </div>
+    </div>
   );
 }
 
-function CustomPopup(props: { properties: PopupObject; preview: PopupObject }) {
-  const { properties, preview } = props;
+function CustomPopup(props: { preview: PopupObject }) {
+  const { preview } = props;
   const data = useMemo(() => {
     if (preview) return preview;
-    if (properties) return properties;
     return null;
-  }, [preview, properties]);
+  }, [preview]);
   return (
-    <div className='absolute top-4 left-4 px-2 py-4 bg-white min-w-44 min-h-24 '>
+    <div className='px-2 py-2 bg-gray-800  '>
       {data ? (
         <Highlight value={data} />
       ) : (
-        <span>Click a feature to few highlights</span>
+        <span>Hover a feature to few highlights</span>
       )}
     </div>
   );
@@ -194,7 +201,7 @@ function LineLayer(props: LayerProps) {
           visibility: visibleLayers.includes('railways') ? 'visible' : 'none',
         }}
         paint={{
-          'line-color': grey[800],
+          'line-color': grey[200],
           'line-width': 1,
           'line-dasharray': [2, 2],
         }}
@@ -238,7 +245,7 @@ function PointLayer(props: LayerProps) {
       clusterRadius={10}
       clusterMaxZoom={16}>
       <Layer
-        id='ports-layer-cluster'
+        id={LAYERS.PORT_CLUSTERS_LAYER}
         source='ports-source'
         type='circle'
         filter={['has', 'point_count']}
@@ -321,7 +328,7 @@ const Legenditems: { value: string; label: string; color: string }[] = [
   {
     value: 'railways',
     label: 'Railways',
-    color: grey[800],
+    color: grey[200],
   },
 ];
 
@@ -332,19 +339,19 @@ function Legend(props: {
   const { visibleLayers, onVisibilityChange } = props;
   const isVisible = (value: string) => visibleLayers.includes(value);
   return (
-    <div className='bg-white absolute bottom-6 right-4 w-52 min-h-16 pb-2'>
+    <div className='bg-gray-800 absolute bottom-6 right-4 w-52 min-h-16 pb-2'>
       <span className='p-2 mb-2 block border-b border-gray-400'>Legend</span>
       {Legenditems.map(({ value, label, color }) => (
         <div
           onClick={() => onVisibilityChange(value)}
           key={label}
-          className={`hover:cursor-pointer hover:bg-gray-200 px-2 py-1 flex items-center justify-between`}>
+          className={`hover:cursor-pointer hover:bg-gray-600 px-2 py-1 flex items-center justify-between`}>
           <div className='flex items-center gap-4'>
-            <div className='border w-3 h-3 p-1 flex flex-col items-center justify-center'>
-              {isVisible(value) && (
-                <span className='bg-black w-full h-full'></span>
-              )}
-            </div>
+            {isVisible(value) ? (
+              <LuSquareCheck size={16} />
+            ) : (
+              <LuSquare size={16} />
+            )}
             <span>{label}</span>
           </div>
           <div
